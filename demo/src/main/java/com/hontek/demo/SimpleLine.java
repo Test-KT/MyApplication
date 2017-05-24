@@ -32,8 +32,11 @@ public class SimpleLine extends View {
 
     private int xPoint[];
 
-    private int yInterval;
-    private int xInterval;
+    private int yInterval;  //y轴间距
+    private int xInterval; //x轴间距
+
+
+    private Paint mPaint;
 
 
     public SimpleLine(Context context) {
@@ -54,6 +57,10 @@ public class SimpleLine extends View {
         mTextPaint = new Paint();
         mTextPaint.setTextSize(textSize);
         mTextPaint.setColor(Color.parseColor(textcolor));
+
+        mPaint = new Paint();
+        mPaint.setStrokeWidth(10f);
+        mPaint.setColor(Color.RED);
     }
 
     //设置x轴
@@ -77,7 +84,7 @@ public class SimpleLine extends View {
         width = w;
         heigth = h;
         xInterval = (width - 50) / xItems.length;
-        yInterval = (heigth - textSize - 2) / yItems.length;
+        yInterval = heigth / yItems.length;
     }
 
     @Override
@@ -87,18 +94,24 @@ public class SimpleLine extends View {
             throw new IllegalArgumentException("point is null");
         }
 
-        //画y轴
         for (int i = 0; i < yItems.length; i++) {
-            yPoint[i] = textSize + i * yInterval;
+            yPoint[i] = yInterval * i;
             canvas.drawText(yItems[i], 0, yPoint[i], mTextPaint);
         }
+        int y = yPoint[yItems.length - 1] + yInterval;
 
-        //获取X轴刻度Y坐标
-        int xItemY = (int) (textSize + xItems.length * xInterval);
-        int xItemX = (int) mTextPaint.measureText(xItems[1]);
 
         for (int i = 0; i < xItems.length; i++) {
-            canvas.drawText(xItems[i], i * xInterval + xItemX + 50, xItemY, mTextPaint);
+            xPoint[i] = xInterval * i + xInterval;
+            canvas.drawText(xItems[i], xPoint[i], y, mTextPaint);
+        }
+
+
+        for (int i = 0; i < xPoint.length; i++) {
+            canvas.drawPoint(xPoint[i], yPoint[i], mPaint);
+            if (i + 1 != xPoint.length) {
+                canvas.drawLine(xPoint[i], yPoint[i], xPoint[i + 1], yPoint[i + 1], mPaint);
+            }
         }
 
 

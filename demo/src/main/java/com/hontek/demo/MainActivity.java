@@ -5,8 +5,8 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
     SimpleLine mSimpleLine;
-    String x[] = {"123", "123", "123", "123", "123"};
-    String y[] = {"123", "123", "123", "123", "123"};
+    String x[] = {"0", "1", "2", "3", "4"};
+    String y[] = {"4", "3", "2", "1", "0"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
