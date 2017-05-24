@@ -4,11 +4,31 @@
                 android:id="@+id/activity_main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
                 tools:context="lsl.myapplication.MainActivity">
 
-    <lsl.myapplication.CustomCan
-        android:id="@+id/test"
-        android:layout_width="400dp"
-        android:layout_height="400dp"/>
+    <!--<lsl.myapplication.CustomCan-->
+    <!--android:id="@+id/test"-->
+    <!--android:layout_width="400dp"-->
+    <!--android:layout_height="400dp"/>-->
+
+    <!--<lsl.myapplication.CustomText-->
+    <!--android:id="@+id/test"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_heigh    A
+    t="match_parent"/>-->
+
+
+    <lsl.myapplication.loading.CustomLoading
+        android:id="@+id/loading"
+        android:layout_width="300dp"
+        android:layout_height="50dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:onClick="doClick"
+        android:text="增加"/>
 
 </RelativeLayout>

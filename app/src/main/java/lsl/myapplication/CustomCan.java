@@ -48,7 +48,9 @@ public class CustomCan extends View {
     }
 
     private void init() {
-        mBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.source);
+//        mBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.source);
+        mBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.test);
+
 
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
@@ -68,11 +70,15 @@ public class CustomCan extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.translate(w / 2, h / 2);
-        canvas.drawCircle(0, 0, w /4, mPaint);
-        int length = mBitmap.getHeight();
-        Rect rect = new Rect(animCurrentPage * length, 0, length * (animCurrentPage + 1), length);
-        Rect dst = new Rect(-100, -100, 100, 100);
-        canvas.drawBitmap(mBitmap, rect, dst, null);
+//        canvas.translate(w / 2, h / 2);
+//        canvas.drawCircle(0, 0, w /4, mPaint);
+//        int length = mBitmap.getHeight();
+//        Rect rect = new Rect(animCurrentPage * length, 0, length * (animCurrentPage + 1), length);
+//        Rect dst = new Rect(-100, -100, 100, 100);
+//        canvas.drawBitmap(mBitmap, rect, dst, null);
+
+        Rect rect = new Rect(0, 0, mBitmap.getWidth()/4, mBitmap.getHeight()/4);  //图片，图片，图片的显示区域
+        Rect dst=new Rect(0, 0, mBitmap.getWidth(), mBitmap.getHeight());  //在屏幕的显示范围（舞台大小）
+        canvas.drawBitmap(mBitmap,rect,dst,new Paint());
     }
 }

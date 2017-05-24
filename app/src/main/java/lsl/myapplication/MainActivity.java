@@ -2,11 +2,13 @@ package lsl.myapplication;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
-import java.util.ArrayList;
-import java.util.List;
+import lsl.myapplication.loading.CustomLoading;
 
 public class MainActivity extends AppCompatActivity {
+
+    CustomLoading mCustomLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,13 @@ public class MainActivity extends AppCompatActivity {
 //        customView.setDatas(pieDatas);
 
 
+        mCustomLoading = (CustomLoading) findViewById(R.id.loading);
+
+    }
+
+
+    public void doClick(View v) {
+        mCustomLoading.setProcess();
     }
 
 
