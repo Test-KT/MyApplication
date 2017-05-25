@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.hontek.demo.MainActivity">
 
     <com.hontek.demo.SimpleLine
         android:id="@+id/simpleline"
         android:layout_width="match_parent"
-        android:layout_height="400dp"/>
+        android:layout_height="200dp"/>
 
-</RelativeLayout>
+    <com.hontek.demo.SimpleLineView
+        android:id="@+id/simpleview"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="别人的折线图和我的折线图"
+        android:textSize="20sp"/>
+
+</LinearLayout>

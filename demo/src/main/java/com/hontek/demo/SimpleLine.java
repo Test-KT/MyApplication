@@ -4,116 +4,203 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
+import java.util.HashMap;
+
 /**
- * Description:
- * Author   :lishoulin
- * Date     :2017/5/24.
+ * @author wing
+ * @url http://blog.csdn.net/wingichoy
+ * <p/>
+ * 这是一个简约的折线图  适合展示一个趋势 而并非精确数据
+ * <p/>
+ * Created by Administrator on 2015/12/30.
  */
-
 public class SimpleLine extends View {
+    //View 的宽和高
+    private int mWidth, mHeight;
 
-    private String[] xItems = {};
-    private String[] yItems = {};
+    //Y轴字体的大小
+    private float mYAxisFontSize = 24;
 
+    //线的颜色
+    private int mLineColor = Color.parseColor("#00BCD4");
 
-    private String textcolor = "#3F51B5";
-    private int textSize = 30;
-    private Paint mTextPaint;
+    //线条的宽度
+    private float mStrokeWidth = 8.0f;
 
-    private int heigth;
-    private int width;
+    //点的集合
+    private HashMap<Integer, Integer> mPointMap;
 
+    //点的半径
+    private float mPointRadius = 10;
 
-    private int yPoint[];
+    //没有数据的时候的内容
+    private String mNoDataMsg = "no data";
 
-    private int xPoint[];
+    //X轴的文字
+    private String[] mXAxis = {};
 
-    private int yInterval;  //y轴间距
-    private int xInterval; //x轴间距
-
-
-    private Paint mPaint;
-
+    //Y轴的文字
+    private String[] mYAxis = {};
 
     public SimpleLine(Context context) {
-        this(context, null, 0);
+        this(context, null);
     }
 
-    public SimpleLine(Context context, @Nullable AttributeSet attrs) {
+    public SimpleLine(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
-
     }
 
-    public SimpleLine(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public SimpleLine(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
-    }
-
-    private void init() {
-        mTextPaint = new Paint();
-        mTextPaint.setTextSize(textSize);
-        mTextPaint.setColor(Color.parseColor(textcolor));
-
-        mPaint = new Paint();
-        mPaint.setStrokeWidth(10f);
-        mPaint.setColor(Color.RED);
-    }
-
-    //设置x轴
-    public void setXItems(String[] xItems) {
-        this.xItems = xItems;
-        xPoint = new int[this.xItems.length];
-    }
-
-    //设置y轴
-    public void setYItems(String[] yItems) {
-        this.yItems = yItems;
-        yPoint = new int[this.yItems.length];
-
-
-    }
-
-
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-        width = w;
-        heigth = h;
-        xInterval = (width - 50) / xItems.length;
-        yInterval = heigth / yItems.length;
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        super.draw(canvas);
-        if (xItems.length == 0 || yItems.length == 0) {
-            throw new IllegalArgumentException("point is null");
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+
+        if (widthMode == MeasureSpec.EXACTLY) {
+            mWidth = widthSize;
+        } else if (widthMode == MeasureSpec.AT_MOST) {
+            throw new IllegalArgumentException("width must be EXACTLY,you should set like android:width=\"200dp\"");
         }
 
-        for (int i = 0; i < yItems.length; i++) {
-            yPoint[i] = yInterval * i;
-            canvas.drawText(yItems[i], 0, yPoint[i], mTextPaint);
-        }
-        int y = yPoint[yItems.length - 1] + yInterval;
+        if (heightMode == MeasureSpec.EXACTLY) {
+            mHeight = heightSize;
+        } else if (widthMeasureSpec == MeasureSpec.AT_MOST) {
 
-
-        for (int i = 0; i < xItems.length; i++) {
-            xPoint[i] = xInterval * i + xInterval;
-            canvas.drawText(xItems[i], xPoint[i], y, mTextPaint);
+            throw new IllegalArgumentException("height must be EXACTLY,you should set like android:height=\"200dp\"");
         }
 
+        setMeasuredDimension(mWidth, mHeight);
+    }
 
-        for (int i = 0; i < xPoint.length; i++) {
-            canvas.drawPoint(xPoint[i], yPoint[i], mPaint);
-            if (i + 1 != xPoint.length) {
-                canvas.drawLine(xPoint[i], yPoint[i], xPoint[i + 1], yPoint[i + 1], mPaint);
+    @Override
+    protected void onDraw(Canvas canvas) {
+
+        if (mXAxis.length == 0 || mYAxis.length == 0) {
+            throw new IllegalArgumentException("X or Y items is null");
+        }
+        //画坐标线的轴
+        Paint axisPaint = new Paint();
+        axisPaint.setTextSize(mYAxisFontSize);
+        axisPaint.setColor(Color.parseColor("#3F51B5"));
+
+        if (mPointMap == null || mPointMap.size() == 0) {
+            int textLength = (int) axisPaint.measureText(mNoDataMsg);
+            canvas.drawText(mNoDataMsg, mWidth / 2 - textLength / 2, mHeight / 2, axisPaint);
+        } else {
+            //画 Y 轴
+
+
+            //存放每个Y轴的坐标
+            int[] yPoints = new int[mYAxis.length];
+
+
+            //计算Y轴 每个刻度的间距
+            int yInterval = (int) ((mHeight - mYAxisFontSize - 2) / (mYAxis.length));
+
+//            //测量Y轴文字的高度 用来画第一个数
+//            Paint.FontMetrics fm = axisPaint.getFontMetrics();
+//            int yItemHeight = (int) Math.ceil(fm.descent - fm.ascent);
+
+            Log.e("wing", mHeight + "");
+            for (int i = 0; i < mYAxis.length; i++) {
+                canvas.drawText(mYAxis[i], 0, mYAxisFontSize + i * yInterval, axisPaint);
+                yPoints[i] = (int) (mYAxisFontSize + i * yInterval);
+
+
             }
+
+
+            //画 X 轴
+
+            //x轴的刻度集合
+            int[] xPoints = new int[mXAxis.length];
+
+            Log.e("wing", xPoints.length + "");
+            //计算Y轴开始的原点坐标
+            int xItemX = (int) axisPaint.measureText(mYAxis[1]);
+
+            //X轴偏移量
+            int xOffset = 50;
+            //计算x轴 刻度间距
+            int xInterval = (int) ((mWidth - xOffset) / (mXAxis.length));
+            //获取X轴刻度Y坐标
+            int xItemY = (int) (mYAxisFontSize + mYAxis.length * yInterval);
+
+            for (int i = 0; i < mXAxis.length; i++) {
+                canvas.drawText(mXAxis[i], i * xInterval + xItemX + xOffset, xItemY, axisPaint);
+                xPoints[i] = (int) (i * xInterval + xItemX + axisPaint.measureText(mXAxis[i]) / 2 + xOffset + 10);
+//            Log.e("wing", xPoints[i] + "");
+            }
+
+
+            //画点
+            Paint pointPaint = new Paint();
+
+            pointPaint.setColor(mLineColor);
+
+            Paint linePaint = new Paint();
+
+            linePaint.setColor(mLineColor);
+            linePaint.setAntiAlias(true);
+            //设置线条宽度
+            linePaint.setStrokeWidth(mStrokeWidth);
+            pointPaint.setStyle(Paint.Style.FILL);
+
+
+            for (int i = 0; i < mXAxis.length; i++) {
+                if (mPointMap.get(i) == null) {
+                    throw new IllegalArgumentException("PointMap has incomplete data!");
+                }
+
+                //画点
+                canvas.drawCircle(xPoints[i], yPoints[mPointMap.get(i)], mPointRadius, pointPaint);
+                if (i > 0) {
+                    canvas.drawLine(xPoints[i - 1], yPoints[mPointMap.get(i - 1)], xPoints[i], yPoints[mPointMap.get(i)], linePaint);
+                }
+            }
+
         }
+    }
 
+    /**
+     * 设置map数据
+     *
+     * @param data
+     */
+    public void setData(HashMap<Integer, Integer> data) {
+        mPointMap = data;
+        invalidate();
+    }
 
+    /**
+     * 设置Y轴文字
+     *
+     * @param yItem
+     */
+    public void setYItem(String[] yItem) {
+        mYAxis = yItem;
+    }
+
+    /**
+     * 设置X轴文字
+     *
+     * @param xItem
+     */
+    public void setXItem(String[] xItem) {
+        mXAxis = xItem;
+    }
+
+    public void setLineColor(int color) {
+        mLineColor = color;
+        invalidate();
     }
 }
