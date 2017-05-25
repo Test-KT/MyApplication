@@ -1,11 +1,11 @@
 package com.hontek.demo;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
-import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -33,6 +33,13 @@ public class SimpleLineView extends View {
     private float mPointRadius = 10f;
     private int defalutColor = Color.parseColor("#00BCD4");
 
+    private int xyColor;  //xy轴坐标颜色
+
+    private int lineColor;  //线条颜色
+
+    private int pointColor;
+
+
     private String[] mXitems = {};
     private String[] mYitems = {};
 
@@ -49,6 +56,8 @@ public class SimpleLineView extends View {
     //X轴偏移量
     private int xOffset = 50;
 
+    private Context mContext;
+
 
     public SimpleLineView(Context context) {
         this(context, null, 0);
@@ -61,21 +70,33 @@ public class SimpleLineView extends View {
     public SimpleLineView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        init();
+        mContext = context;
+        init(attrs);
     }
 
-    private void init() {
+    private void init(@Nullable AttributeSet attrs) {
+
+        TypedArray array = mContext.obtainStyledAttributes(attrs, R.styleable.SimpleLineView);
+        mFontSize = array.getInteger(R.styleable.SimpleLineView_fontSize, 24);
+        mStrokeWidth = array.getFloat(R.styleable.SimpleLineView_StrokeWidth, 8.0f);
+        mPointRadius = array.getFloat(R.styleable.SimpleLineView_StrokeWidth, 10f);
+        xyColor = array.getColor(R.styleable.SimpleLineView_xyColor, defalutColor);
+        lineColor = array.getColor(R.styleable.SimpleLineView_lineColor, defalutColor);
+        pointColor = array.getColor(R.styleable.SimpleLineView_pointColor, defalutColor);
+        array.recycle();
+
+
         textPaint = new Paint();
         textPaint.setTextSize(mFontSize);
-        textPaint.setColor(defalutColor);
+        textPaint.setColor(xyColor);
 
         pointPaint = new Paint();
         pointPaint.setAntiAlias(true);
-        pointPaint.setColor(defalutColor);
+        pointPaint.setColor(pointColor);
 
         linePaint = new Paint();
         linePaint.setAntiAlias(true);
-        linePaint.setColor(defalutColor);
+        linePaint.setColor(lineColor);
         linePaint.setStrokeWidth(mStrokeWidth);
 
     }
@@ -146,5 +167,50 @@ public class SimpleLineView extends View {
         mXitems = xItem;
 
         xPoint = new int[mXitems.length];
+    }
+
+    /**
+     * 设置字体大小
+     *
+     * @param fontSize
+     */
+    public void setFontSize(float fontSize) {
+        mFontSize = fontSize;
+    }
+
+    /**
+     * 设置线条宽度
+     *
+     * @param strokeWidth
+     */
+    public void setStrokeWidth(float strokeWidth) {
+        mStrokeWidth = strokeWidth;
+    }
+
+    /**
+     * 设置xy轴字体颜色
+     *
+     * @param xyColor
+     */
+    public void setXyColor(int xyColor) {
+        this.xyColor = xyColor;
+    }
+
+    /**
+     * 设置线条颜色
+     *
+     * @param lineColor
+     */
+    public void setLineColor(int lineColor) {
+        this.lineColor = lineColor;
+    }
+
+    /**
+     * 设置点颜色
+     *
+     * @param pointColor
+     */
+    public void setPointColor(int pointColor) {
+        this.pointColor = pointColor;
     }
 }

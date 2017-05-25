@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="SimpleLineView">
+        <attr name="fontSize" format="integer"/>
+        <attr name="StrokeWidth" format="float"/>
+        <attr name="PointRadius" format="float"/>
+        <attr name="xyColor" format="color"/>
+        <attr name="lineColor" format="color"/>
+        <attr name="pointColor" format="color"/>
+    </declare-styleable>
+
+</resources>
