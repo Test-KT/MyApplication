@@ -1,1 +1,2 @@
-include ':app', ':demo', ':pathdemo'
+include ':bezir'
+//include //':app'//, //':demo', ':pathdemo'
