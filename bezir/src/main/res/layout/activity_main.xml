@@ -10,9 +10,6 @@
     <com.lsl.bezir.BezirView
         android:layout_width="match_parent"
         android:layout_height="200dp"/>
-
-
-
     <com.lsl.bezir.BLView
         android:layout_width="match_parent"
         android:layout_height="200dp"
