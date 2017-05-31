@@ -1,2 +1,2 @@
-include ':mvvm'//,':bezir',
-//include //':app'//, //':demo', ':pathdemo'
+//include ':mvvm'//,':bezir',
+include ':pathdemo'//':app'//, //':demo',

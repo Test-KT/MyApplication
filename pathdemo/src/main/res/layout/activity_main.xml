@@ -4,14 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.lsl.pathdemo.MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.lsl.pathdemo.MainActivity">
 
-    <com.lsl.pathdemo.CustomPath
+    <!--<com.lsl.pathdemo.CustomPath-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="100dp"/>-->
+
+    <!--<com.lsl.pathdemo.CustomLdView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="100dp"/>-->
+
+    <com.lsl.pathdemo.PathCicle
         android:layout_width="match_parent"
         android:layout_height="200dp"/>
 
-    <com.lsl.pathdemo.CustomLdView
+
+    <com.lsl.pathdemo.Bezier3
         android:layout_width="match_parent"
         android:layout_height="200dp"/>
 

@@ -94,7 +94,7 @@ public class CustomLdView extends View {
                     path.lineTo(x, y);
                 }
             }
-//            path.close();
+            path.close();
             canvas.drawPath(path, mPaint);
         }
     }
