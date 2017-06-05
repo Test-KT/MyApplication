@@ -1,2 +1,2 @@
 //include ':mvvm'//,':bezir',
-include ':pathstudy', ':myapplication2'//':statusdemo', //':pathdemo', //':app'//, //':demo',
+include  ':pathcicle'//':pathstudy', //, ':myapplication2'//':statusdemo', //':pathdemo', //':app'//, //':demo',
