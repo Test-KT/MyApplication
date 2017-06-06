@@ -30,6 +30,7 @@ public class BLView extends View {
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setColor(Color.RED);
+        mPaint.setStyle(Paint.Style.STROKE);
     }
 
     public BLView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {

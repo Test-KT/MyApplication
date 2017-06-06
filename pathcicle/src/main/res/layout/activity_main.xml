@@ -25,4 +25,43 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"/>
 
+    <com.lsl.pathcicle.TagMenu
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="测试代码"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="测试代码"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="测试代码"/>
+
+
+    </com.lsl.pathcicle.TagMenu>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="测试代码"/>
+
 </LinearLayout>
