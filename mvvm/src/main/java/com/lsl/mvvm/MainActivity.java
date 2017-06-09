@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         user.name = "Gy";
         user.sex = "女";
         user.id = 1;
+        user.url="http://onmtj6n3g.bkt.clouddn.com/head.png";
         binding.setUser(user);
         binding.setHandles(new MyHandlers());
     }

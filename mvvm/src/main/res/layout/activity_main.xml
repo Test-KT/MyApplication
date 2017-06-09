@@ -2,13 +2,17 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="user"
             type="com.lsl.mvvm.User"/>
+
         <variable
             name="handles"
             type="com.lsl.mvvm.MyHandlers"/>
+
         <import type="android.view.View"/>
     </data>
 
@@ -19,10 +23,10 @@
         tools:context="com.lsl.mvvm.MainActivity">
 
         <TextView
-            android:visibility="@{user.id!=1?View.GONE:View.VISIBLE}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{user.name}"/>
+            android:text="@{handles.parseStr(user.name)}"
+            android:visibility="@{user.id!=1?View.GONE:View.VISIBLE}"/>
 
         <TextView
             android:layout_width="wrap_content"

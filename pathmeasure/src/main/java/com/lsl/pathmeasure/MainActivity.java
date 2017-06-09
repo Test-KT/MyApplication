@@ -1,24 +1,13 @@
-package com.lsl.pathcicle;
+package com.lsl.pathmeasure;
 
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
-
-    PathCircle mCirclel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mCirclel = (PathCircle) findViewById(R.id.test);
-
     }
-
-
-    public void doClick(View v) {
-//        mCirclel.startAnimation();
-    }
-
 }

@@ -11,4 +11,5 @@ public class User {
     public int id;
     public String sex;
     public String city;
+    public String url;
 }
