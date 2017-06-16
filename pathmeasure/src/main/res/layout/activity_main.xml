@@ -4,15 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.lsl.pathmeasure.MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.lsl.pathmeasure.MainActivity">
 
     <com.lsl.pathmeasure.PathMeaSureView
         android:layout_width="match_parent"
-        android:layout_height="200dp"/>
+        android:layout_height="100dp"/>
 
     <com.lsl.pathmeasure.ArcLoadingView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="200dp"/>
+
+    <com.lsl.pathmeasure.TextParseView
+        android:id="@+id/textparse"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text=""/>
 
 </LinearLayout>
