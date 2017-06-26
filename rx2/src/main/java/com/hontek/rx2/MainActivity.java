@@ -10,6 +10,9 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
+/**
+ *  RxJava2 第一章学习 学习博客链接：http://www.jianshu.com/p/464fa025229e
+ */
 public class MainActivity extends AppCompatActivity {
     private static final String tag = "info--->";
 
