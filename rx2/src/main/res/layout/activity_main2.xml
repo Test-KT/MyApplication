@@ -7,4 +7,13 @@
     android:layout_height="match_parent"
     tools:context="com.hontek.rx2.Main2Activity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:onClick="doClick"
+        android:layout_height="wrap_content"
+        android:text="点击啊我，测试下线程切换"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="108dp"
+        tools:layout_editor_absoluteY="226dp"/>
+
 </android.support.constraint.ConstraintLayout>
