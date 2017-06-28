@@ -12,9 +12,11 @@
         <activity android:name=".MainActivity">
         </activity>
         <activity android:name=".Main2Activity">
-
         </activity>
         <activity android:name=".Main3Activity">
+
+        </activity>
+        <activity android:name=".Main4Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
