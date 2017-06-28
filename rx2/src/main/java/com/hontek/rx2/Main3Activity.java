@@ -5,14 +5,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+
+import java.util.concurrent.TimeUnit;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Main3Activity extends AppCompatActivity {
 
@@ -82,6 +94,59 @@ public class Main3Activity extends AppCompatActivity {
                 Log.w(tag, s);
             }
         });
+    }
+
+
+    /**
+     * 仅仅是模拟
+     *
+     * @return
+     */
+    private static Retrofit create() {
+        OkHttpClient.Builder builder = new OkHttpClient().newBuilder().readTimeout(10, TimeUnit.SECONDS).writeTimeout(10, TimeUnit.SECONDS);
+        if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+            builder.addInterceptor(interceptor);
+        }
+        return new Retrofit.Builder().addCallAdapterFactory(RxJava2CallAdapterFactory.create()).addConverterFactory(GsonConverterFactory.create()).build();
+
+
+    }
+
+    /**
+     * 使用flatmap模拟嵌套网络请求
+     */
+    public void doNet() {
+        final Api api = create().create(Api.class);
+        api.register(null) //发起注册请求
+                .subscribeOn(Schedulers.io()) //请求在io线程
+                .observeOn(AndroidSchedulers.mainThread()) //处理结果在UI线程
+                .doOnNext(new Consumer<ResponseBody>() {
+                    @Override
+                    public void accept(ResponseBody responseBody) throws Exception {
+                        //注册完毕后的响应
+                    }
+                }).observeOn(Schedulers.io()) //切换到UI线程进行登录请求
+                .flatMap(new Function<ResponseBody, ObservableSource<?>>() {
+                    @Override
+                    public ObservableSource<?> apply(ResponseBody responseBody) throws Exception {
+                        return api.login(null);
+                    }
+                }).observeOn(AndroidSchedulers.mainThread()) //在ui线程处理结果
+                .subscribe(new Consumer<Object>() {
+                    @Override
+                    public void accept(Object o) throws Exception {  //登录成功
+
+                    }
+                }, new Consumer<Throwable>() {  //登录失败
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+
+                    }
+                });
+
+
     }
 
 }

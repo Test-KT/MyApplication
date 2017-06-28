@@ -10,6 +10,6 @@ public interface Api {
     @GET
     Observable<ResponseBody> login(@Body RequestBody request);
 //
-//    @GET
-//    Observable<RegisterResponse> register(@Body RegisterRequest request);
+    @GET
+    Observable<ResponseBody> register(@Body RequestBody request);
 }
