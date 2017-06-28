@@ -7,4 +7,10 @@
     android:layout_height="match_parent"
     tools:context="com.hontek.rx2.Main3Activity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="doSomth"
+        android:text="点击"/>
+
 </android.support.constraint.ConstraintLayout>

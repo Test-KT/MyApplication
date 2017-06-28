@@ -3,12 +3,15 @@ package com.hontek.rx2;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 
 public class Main3Activity extends AppCompatActivity {
@@ -57,8 +60,28 @@ public class Main3Activity extends AppCompatActivity {
         });
 
 
+    }
 
 
+    public void doSomth(View v) {
+        Observable.create(new ObservableOnSubscribe<Integer>() {
+
+            @Override
+            public void subscribe(ObservableEmitter<Integer> e) throws Exception {
+
+            }
+        }).flatMap(new Function<Integer, ObservableSource<String>>() {
+            @Override
+            public ObservableSource<String> apply(Integer integer) throws Exception {
+                String str = "i am " + integer;
+                return Observable.just(str);
+            }
+        }).subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+                Log.w(tag, s);
+            }
+        });
     }
 
 }
