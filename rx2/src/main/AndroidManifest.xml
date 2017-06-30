@@ -16,9 +16,11 @@
         <activity android:name=".Main3Activity">
         </activity>
         <activity android:name=".Main4Activity">
-
         </activity>
         <activity android:name=".Main5Activity">
+
+        </activity>
+        <activity android:name=".Main6Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
