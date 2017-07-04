@@ -36,6 +36,13 @@
         android:onClick="@{(v)->handlesr.showIsVie(v.getVisibility()==View.VISIBLE)}"/>
 
     <include layout="@layout/ext_layout" bind:user="@{user}"/>
+    <fragment
+        android:id="@+id/fragment_bind"
+        android:name="com.lsl.databing.DatabindingFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </fragment>
 
 </LinearLayout>
 
