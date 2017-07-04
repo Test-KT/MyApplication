@@ -1,2 +1,2 @@
-include ':rx2'//':pathmeasure', //':mvvm', //,':bezir',
+include ':databing'//':rx2', //':pathmeasure', //':mvvm', //,':bezir',
 //include ':pathcicle'//, ':poputip'//':pathstudy', //, ':myapplication2'//':statusdemo', //':pathdemo', //':app'//, //':demo',
