@@ -1,5 +1,6 @@
 package com.lsl.databing;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,15 @@ public class DatabindingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FragmentDatabindBinding binding=FragmentDatabindBinding.inflate(inflater,container,false);
+        binding.btnProcess.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ProgressDialog progressDialog=new ProgressDialog(getContext());
+                progressDialog.setMessage("加载中...");
+                progressDialog.show();
+            }
+        });
         return binding.getRoot();
     }
 }
