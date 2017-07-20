@@ -14,7 +14,6 @@ import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -27,7 +26,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Main3Activity extends AppCompatActivity {
-
+    Disposable mDisposable;
     String tag = "info--->";
 
     @Override
@@ -80,7 +79,7 @@ public class Main3Activity extends AppCompatActivity {
 
             @Override
             public void subscribe(ObservableEmitter<Integer> e) throws Exception {
-
+                e.onNext(100);
             }
         }).flatMap(new Function<Integer, ObservableSource<String>>() {
             @Override
@@ -122,12 +121,25 @@ public class Main3Activity extends AppCompatActivity {
         api.register(null) //发起注册请求
                 .subscribeOn(Schedulers.io()) //请求在io线程
                 .observeOn(AndroidSchedulers.mainThread()) //处理结果在UI线程
+                .doOnSubscribe(new Consumer<Disposable>() {
+                    @Override
+                    public void accept(Disposable dis) throws Exception {
+                        mDisposable=dis;
+                    }
+                })
                 .doOnNext(new Consumer<ResponseBody>() {
                     @Override
                     public void accept(ResponseBody responseBody) throws Exception {
                         //注册完毕后的响应
+                        //通过抛异常来中断登录操作，如果注册失败的话 比较优雅的可以使用Disposable去中断
+                        if(responseBody.string().isEmpty()){
+                            if(mDisposable.isDisposed()) {
+                                mDisposable.dispose();
+                            }
+                        }
                     }
                 }).observeOn(Schedulers.io()) //切换到UI线程进行登录请求
+
                 .flatMap(new Function<ResponseBody, ObservableSource<?>>() {
                     @Override
                     public ObservableSource<?> apply(ResponseBody responseBody) throws Exception {
