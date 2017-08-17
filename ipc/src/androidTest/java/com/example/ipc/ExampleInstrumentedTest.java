@@ -1,4 +1,4 @@
-package com.lsl.recycleldview;
+package com.example.ipc;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.lsl.recycleldview", appContext.getPackageName());
+        assertEquals("com.example.ipc", appContext.getPackageName());
     }
 }

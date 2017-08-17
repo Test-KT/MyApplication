@@ -1,4 +1,4 @@
-package com.lsl.recycleldview;
+package com.example.ipc;
 
 import org.junit.Test;
 
