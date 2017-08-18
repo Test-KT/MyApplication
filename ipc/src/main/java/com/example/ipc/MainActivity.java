@@ -39,8 +39,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //top3
     private Messenger mes = new Messenger(new MessageHandler());
-
+    //top3
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             Bundle bundle = new Bundle();
             bundle.putString("name", "nlt");
             message.setData(bundle);
-            message.replyTo = messenger;
+            message.replyTo = mes;
             try {
                 messenger.send(message);
             } catch (RemoteException e) {
@@ -88,8 +89,15 @@ public class MainActivity extends AppCompatActivity {
                 */
 
                 //top3: use Messenager exchange msg
+               /*
                 Intent intent = new Intent(MainActivity.this, MessenageService.class);
                 bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
+                */
+                //top4:use aidl exchange msg
+
+                //top5 use ContentProvider exchange msg
+
+                //top5 use socket exchange msg
 
             }
         });
