@@ -1,17 +1,15 @@
 package com.lsl.databing;
 
 /**
- * Description:
- * Author   :lishoulin
- * Date     :2017/7/4.
+ * Created by lsl on 17-8-20.
  */
 
 public class User {
-    public final int id;
-    public final String name;
+    public String name;
+    public int age;
 
-    public User(int id, String name) {
-        this.id = id;
+    public User(String name, int age) {
         this.name = name;
+        this.age = age;
     }
 }
