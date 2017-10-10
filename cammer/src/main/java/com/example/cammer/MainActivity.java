@@ -1,7 +1,9 @@
 package com.example.cammer;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -9,6 +11,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -24,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int GALLERY_RES = 1001;
     private static final int GALLERY_RES_KIT = 1002;
     private static final int CROP_RES = 1003;
+    private static final int PERMISSION_RES = 1004;
     private Context context;
 
     @Override
@@ -78,7 +84,11 @@ public class MainActivity extends AppCompatActivity {
         Bitmap bitmap = BitmapFactory.decodeFile(path);
         File faceFile = null;
         try {
-            faceFile = saveBitmap(bitmap);
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_RES);
+            } else {
+                faceFile = saveBitmap(bitmap);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -98,7 +108,12 @@ public class MainActivity extends AppCompatActivity {
             ParcelFileDescriptor parcelFileDescriptor = getContentResolver().openFileDescriptor(data.getData(), "r");
             FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
             Bitmap bitmap = BitmapFactory.decodeFileDescriptor(fileDescriptor);
-            facefile = saveBitmap(bitmap);
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+            } else {
+                facefile = saveBitmap(bitmap);
+            }
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -150,5 +165,14 @@ public class MainActivity extends AppCompatActivity {
 //        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(
 //                new File(getExternalCacheDir(), "face-cropped")));
         startActivityForResult(intent, CROP_RES);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case PERMISSION_RES:
+                //dui quan xian chu li
+                break;
+        }
     }
 }
