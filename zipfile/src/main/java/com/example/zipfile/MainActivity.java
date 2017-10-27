@@ -5,6 +5,7 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -35,7 +36,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    unzip();
+//                    unzip();
+                    File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "images");
+                    execExtractAssetsFile2Sd("test.zip", file);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -74,6 +77,52 @@ public class MainActivity extends AppCompatActivity {
         }
 
         zipInputStream.close();
+        inputStream.close();
+    }
+
+
+    /**
+     * copy asset中的模板缩略图并解压到sd卡中
+     *
+     * @param zippath   压缩包路径名称
+     * @param unzippath 解压的路径
+     */
+    public void execExtractAssetsFile2Sd(String zippath, File unzippath) throws IOException {
+
+        InputStream inputStream;
+        if (unzippath.isDirectory() && !unzippath.exists()) {
+            unzippath.mkdirs();
+        }
+        inputStream = mContext.getAssets().open(zippath);
+        ZipInputStream zipInput = new ZipInputStream(inputStream);
+
+        ZipEntry entry = zipInput.getNextEntry();
+        File zipfile;
+        byte[] buff = new byte[1024];
+        int len;
+        while (entry != null) {
+            if (entry.isDirectory()) {
+                zipfile = new File(unzippath + File.separator + entry.getName());
+                zipfile.mkdir();
+                Log.e("info--->","目录："+unzippath + File.separator + entry.getName());
+            } else {
+                zipfile = new File(unzippath, entry.getName());
+                if (!zipfile.getParentFile().exists()) {
+                    zipfile.getParentFile().mkdirs();
+                }
+                Log.e("info--->","文件："+unzippath + File.separator + entry.getName());
+
+                FileOutputStream fileOutputStream = new FileOutputStream(zipfile);
+
+                while ((len = zipInput.read(buff)) != -1) {
+                    fileOutputStream.write(buff, 0, len);
+                }
+                fileOutputStream.flush();
+                fileOutputStream.close();
+            }
+            entry = zipInput.getNextEntry();
+        }
+        zipInput.close();
         inputStream.close();
     }
 }

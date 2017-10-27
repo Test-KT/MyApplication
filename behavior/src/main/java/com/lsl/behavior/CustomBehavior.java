@@ -30,4 +30,8 @@ public class CustomBehavior extends CoordinatorLayout.Behavior<TextView> {
         child.setText(dependency.getX() + "," + dependency.getY());
         return true;
     }
+
+
+
+
 }
